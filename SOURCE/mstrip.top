@@ -1,0 +1,7 @@
+n1 n2 
+n2 n3
+n3
+end
+n1 mstrip1  0.01 
+n2 mstrip1  0.01  
+n3 mstrip1  0.01  50.0 0.0

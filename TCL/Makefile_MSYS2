@@ -1,0 +1,58 @@
+
+CFLAGS= -g -I../library/TCL -I../SOURCE  
+#LDFLAGS = -L/opt/TCL/tcl8.4.13/unix/ -L../library
+#LDFLAGS = -L/usr/local/lib -L../library
+LDFLAGS = 
+
+all: trc
+
+main.o: main.c trantopcalc_tcl.h
+	cc -c $(CFLAGS) main.c
+
+
+
+trc_invoke.o: trc_invoke.c
+	cc -c $(CFLAGS) trc_invoke.c
+
+trc_tclappinit.o: trc_tclappinit.c 
+	cc -c $(CFLAGS)  trc_tclappinit.c
+
+	
+trc_commands.o: trc_commands.c  trantopcalc_tcl.h trc_tclcommands.h
+	cc -c $(CFLAGS) trc_commands.c	
+	
+trc_vectorscxops.o: trc_vectorscxops.c  trantopcalc_tcl.h 
+	cc -c $(CFLAGS)  trc_vectorscxops.c		
+	
+trc_tcl.o: trc_tcl.c  trantopcalc_tcl.h 
+	cc -c $(CFLAGS)  trc_tcl.c		
+
+trc_netops.o: trc_netops.c  trantopcalc_tcl.h 
+	cc -c $(CFLAGS)  trc_netops.c		
+
+	
+dsp_vecfft.o: dsp_vecfft.c  trantopcalc_tcl.h 
+	cc -c $(CFLAGS)  dsp_vecfft.c		
+
+		
+dsp_complex_oper.o: dsp_complex_oper.c  
+	cc -c $(CFLAGS)  dsp_complex_oper.c		
+	
+MersenneTwister.o: MersenneTwister.c random.h 
+	cc -c $(CFLAGS)  MersenneTwister.c	
+		
+ 
+		
+trc: main.o random.o random_cmd.o plus.o random_obj.o trc_invoke.o trc_tclappinit.o trc_commands.o \
+	trc_vectorscxops.o dsp_complex_oper.o trc_tcl.o trc_netops.o dsp_vecfft.o  MersenneTwister.o
+	cc -o trc  main.o  trc_tclappinit.o trc_invoke.o   \
+	trc_vectorscxops.o trc_commands.o dsp_complex_oper.o trc_tcl.o trc_netops.o  dsp_vecfft.o MersenneTwister.o \
+#        ../SOURCE/libtrc.a ../SOURCE/kiss_fft.o $(LDFLAGS) -ltcl8.4 -lm
+
+	../SOURCE/libtrc.a ../SOURCE/kiss_fft.o $(LDFLAGS) tcl84.dll     -lm
+#	../SOURCE/libtrc.a ../SOURCE/kiss_fft.o $(LDFLAGS) libtcl8p4p20_macosx.a    -framework CoreFoundation -lm
+
+clean:
+	rm *.o
+	rm trc
+

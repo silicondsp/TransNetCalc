@@ -1,0 +1,8 @@
+n1 n2
+n2 bridgeTap terminal
+bridgeTap
+terminal
+n1 #19m 2000
+n2 #22m 200
+bridgeTap #24m 1000 open
+terminal #22m 500 100.0 0.0

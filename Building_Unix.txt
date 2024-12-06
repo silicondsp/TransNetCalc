@@ -1,0 +1,47 @@
+
+To Build:
+
+First cd to the SOURCE directory and type 
+           make all
+           make trc
+           
+This will also make the library for TransNetCalc which building trc in the TCL durectory also will need. 
+
+Run:
+./trc
+
+By the way trc is for Transmission Line Calc.
+
+To test,  load the topology doublestubtunerlumped.t
+This is a double stub tuner that matches the load at 100 Ohms to 50 Ohms using coaxial cables.
+
+
+To build with TCL interpreter buit in, follow the directions below:
+
+
+For TCL Interprter support do the following:
+
+run command 'pwd' in  the toplevel directory: TransmissionLineNets.
+
+THE_PATH is this directory (obtained by pwd)
+Next type
+export LD_LIBRARY_PATH=THE_PATH/library
+
+Change directory to TCL.
+type make
+The executable is trc
+Run:
+./trc
+
+Note you can now run tcl commands. See the documentation.
+Also read the README.txt file in the TCL directory.
+
+
+
+If  you need to build TCL8.4 we have included the source code in the directory: TCL8p4
+
+
+
+
+
+

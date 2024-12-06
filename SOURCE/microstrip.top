@@ -1,0 +1,14 @@
+n1 n2 n3
+n3 n4 n5
+n2 
+n4
+n5
+end
+n1  mstrip50  0.010
+n2  mstrip50 0.0001 open
+n3 mstrip50  0.040  
+n4 mstrip50 0.0001 open
+n5 R50_L0.00000 0 open
+
+
+

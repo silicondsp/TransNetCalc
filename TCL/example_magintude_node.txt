@@ -1,0 +1,77 @@
+
+
+ tload t.top
+syntax tload $fileName ?top?
+% tload t.top T
+n1 n2 n3
+n2  
+n3 n4 n5
+n4  
+n5  
+end
+n1  coax1 30.000000 
+n2  coax1 1.760000 0.000000e+00 0.000000e+00 
+n3  coax1 2.500000 
+n4  coax1 6.600000 0.000000e+00 0.000000e+00 
+n5  R100_L0.0000015915 0.000000 open 
+% tpr $T
+n1 n2 n3
+n2  
+n3 n4 n5
+n4  
+n5  
+end
+n1  coax1 30.000000 
+n2  coax1 1.760000 0.000000e+00 0.000000e+00 
+n3  coax1 2.500000 
+n4  coax1 6.600000 0.000000e+00 0.000000e+00 
+n5  R100_L0.0000015915 0.000000 open 
+% cx 1 0 g
+% cs 50 0 zs
+invalid command name "cs"
+% cx 50 0 zs
+% tcalc $T 1e6 $g $zs
+Total impedance = 4.417685e+00 7.932041e+01 
+Total input current = 5.881078e-03 -8.572388e-03 
+% nvalues $T n3
+Created complex scalar variable:n3_zl
+Created complex scalar variable:n3_zr
+Created complex scalar variable:n3_i
+Created complex scalar variable:n3_il
+Created complex scalar variable:n3_ir
+Created integer variable:n3_type
+% vpr f $n3_il       
+Variable not a vector/matrix/complex scalar
+
+% puts $n3_type
+0
+% puts $n3_i
+n3_i
+% vpr $n3_i
+Printing Complex Scalar
+1.880260e-03-2.539088e-03i
+% vpr $n3_i -twocol
+Printing Complex Scalar
+1.880260e-03-2.539088e-03i
+% vpr -twocol $n3_i
+Variable not a vector/matrix/complex scalar
+
+% vpr $n3_ir
+Printing Complex Scalar
+3.075092e-04+1.294841e-04i
+% zpar $n3_zl $n3_zr zt
+% vpr $zt
+Printing Complex Scalar
+1.472631e+00+1.051054e+01i
+% cxmult $zt $n3_i vn3
+% vpr $vn3
+Printing Complex Scalar
+2.945612e-02+1.602341e-02i
+% cxgetpolar $vn3 mag
+syntax cxpolar $x  ?mag? ?angle?
+% cxgetpolar $vn3 mag ang
+m=0.033532 angle=28.545109 
+% puts $mag
+0.0335322615184
+% 
+

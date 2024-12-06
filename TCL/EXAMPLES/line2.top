@@ -1,0 +1,10 @@
+n1 n2 n3
+n3 n4 terminal
+n2
+n4
+terminal
+n1 #26m 500.0
+n2 #26m 61.0 open
+n3 #24m 1900.0
+n4 #24m 25.0 open
+terminal #26m 2685. 100.0 0.0

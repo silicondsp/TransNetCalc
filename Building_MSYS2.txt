@@ -1,0 +1,47 @@
+
+
+The Binaries are available  in the BIN directory.
+
+BIN/trc.exe
+
+and
+
+BIN/trctcl.exe
+
+To Build:
+
+First cd to the SOURCE directory and type 
+           make all
+           make trc
+           
+This will also make the library for TransNetCalc which building trctcl.exe will need.
+
+Change directory to TCL.
+
+Type:
+   make
+   
+This will create trc.exe
+
+Note we rename this to trctcl.exe in the BIN directory.
+
+On MSYS2 execute using:
+
+   winpty ./trctcl.exe
+   
+Also on MSYS2 make sure to place:
+     tcl84.dll
+     
+where the executable resides.
+
+The dll is also provided in the BIN directory.
+
+By the way trc is for TRansmission line Calc.
+
+
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+ tload double_stub_tuner_microstrip.top T
+n1 n2 n3
+n2  
+n3 n4 n5
+n4  
+n5  
+end
+n1  mstrip50 0.010000 
+n2  mstrip50 0.020000 0.000000e+00 0.000000e+00 
+n3  mstrip50 0.040000 
+n4  mstrip50 0.020000 0.000000e+00 0.000000e+00 
+n5  R50_L0.00000 0.000000 open 
+% tcalc n1 10000000000 1 50
+Variable not a node
+
+% tpr
+syntax tpr $root [$fileName] 
+
+% tpr $T
+n1 n2 n3
+n2  
+n3 n4 n5
+n4  
+n5  
+end
+n1  mstrip50 0.010000 
+n2  mstrip50 0.020000 0.000000e+00 0.000000e+00 
+n3  mstrip50 0.040000 
+n4  mstrip50 0.020000 0.000000e+00 0.000000e+00 
+n5  R50_L0.00000 0.000000 open 
+% cx 1 0 g
+% cx 50 0 zs
+% tcalc $T 10e9 $g $zs timp tcur
+Total impedance = 1.600519e+01 -2.448386e+01 
+Total input current = 1.331785e-02 4.940103e-03 
+% ngetlength $T n2 
+Length=2.000000e-02
+% nz0gamm $T n1 z0 gamma
+% puts $z0
+z0
+% nz0gamma $T n1 z0 gamma
+% puts $z0
+z0
+% tpr $T
+n1 n2 n3
+n2  
+n3 n4 n5
+n4  
+n5  
+end
+n1  mstrip50 0.010000 
+n2  mstrip50 0.020000 0.000000e+00 0.000000e+00 
+n3  mstrip50 0.040000 
+n4  mstrip50 0.020000 0.000000e+00 0.000000e+00 
+n5  R50_L0.00000 0.000000 open 
+% ninfo $T n1
+Node Name: n1
+Length:  1.0000e-02
+Line Type : mstrip50
+Z0:  7.8381e+00  0.0000e+00
+Gamma: 
+  0.0000e+00  3.8627e+02 
+Wavelength = 0.016266
+epsr = inf
+Left branch: n2
+Right branch: n3
+Z Left: 
+ -1.6545e-15  6.0633e+01
+Z Right: 
+  7.3636e+00  1.6362e+01
+Incoming current:
+   1.0803e-02  2.4432e-02
+Outgoing left current: 
+  4.1963e-03  4.5602e-03
+Outgoing right current: 
+  6.6070e-03  1.9872e-02
+Voltage: 
+ -2.7650e-01  2.5444e-01
+% 
+

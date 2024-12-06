@@ -1,0 +1,81 @@
+Notes on developing with Transmission Line Nets  Calc on MSYS2 64 bit.
+
+Silicon DSP Corporation
+December 2017
+
+
+Go to:
+http://www.msys2.org/
+
+and download msys2-x86_64_....
+
+The 64 bit version.
+
+Your home directory will be :
+/usr/home/username
+
+Which on a C drive is:
+
+C:\msys64\home\username.
+
+username is your Windows username.
+
+You can override this by setting the HOME environmet variable to a different location. 
+
+For compiling and linking  code you need to do the following:
+
+1- Install gcc:
+    pacman -Sy gcc
+    
+    If you get an error. Close window. Start msys 64 bit and use:
+       pacman -Sy --force gcc
+       
+       
+2- run:
+          pacman -Sy mingw-w64-x86_64-toolchain base-devel
+       
+       
+3- Install perl:
+    pacman -Sy perl
+    
+4- Java Installation:
+    Java is required for plotting using the Open Source IIPPlot Java Application. 
+    
+    Installation is as follows:
+    Install 64 bit Java JDK for Windows ( you can also just install the JRE but JDK allows for java application development).
+    Using Windows Explorer find out where Java was installed. For example:
+    
+          C:\Program Files\Java\jdk1.8.0_66\bin   
+          
+    Now this is a Windows type path. You need to add the Java bin path to MSYS2's PATH:
+    
+    So you would do the following in  the MSYS window.
+    
+          export PATH=$PATH:/c/Program\ Files/Java/jdk1.8.0_66/bin
+    
+    Note the UNIX paths. Much better. Also the "\" escape of the space in "Program Files"
+    
+5-   Instead of updating the PATH every time, you can set it in the .bash_profiles directrory in your HOME directory
+            so it will be updated when you start an MSYS2 terminal.
+ 
+ 
+ 
+ 6- Test java by typing "java". Also  test perl by typing "perl --version" at the terminal.
+ 
+ 7- install bison:
+       pacman -Sy bison
+    Bison is a bunch of tools ( e.g. yacc, awk etc). 
+    
+ 8- Get a  graphical editor. We like TextPad . You can set Textxpad's exe in the PATH. Or JEDIT(Use Windows Install  EXE).
+ 
+ 9- Get vim the editor for UNIX . 
+       pacman -Sy vim
+ 11- If you are used to vi set this alias in your .bash_profile file:   alias vi=vim
+ 
+ 12- Install make:
+         pacman -Sy make
+         
+ 
+ 
+ 
+      

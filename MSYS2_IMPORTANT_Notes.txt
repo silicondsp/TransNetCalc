@@ -1,0 +1,47 @@
+
+
+There is an issue with the MSYS2 terminal when running executables.
+
+The remedy to this problem is simple. 
+
+To run an executable (trc.exe) we just type:
+
+     winpty ./trc.exe
+     
+     or for TLC
+     
+     winpty ./trctcl.exe
+     
+     
+Both executables are in the BIN directory.
+
+
+     
+We then get full interaction and support for TCL interpreter.
+
+But first we must install winpty. Follow the instructions  below:
+
+
+
+Grab the application (once):
+ pacman -Sy winpty
+
+
+Then always run trc.exe as follows:
+    winpty ./trc.exe
+
+That is winpty before trc. 
+
+This is necessary since stdout writes to the console in MSYS inder Windows may not appear in interactive mode. 
+
+winpty takes care of this. 
+
+Also sometimes trc.exe may crash for no good reason  becuase of buffering on stdout and winpty takes care of this too.
+
+Thanks to the author of winpty:
+
+
+https://github.com/rprichard/winpty
+
+
+
