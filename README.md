@@ -14,6 +14,10 @@ The repository contains an example of a double stub tuner using coaxial cables.
 
 https://www.ccdsp.org/TransTopCalc_Site/trantopcalc_tcl.htm#double_stub_tuner
 
+For paper on Computer Modeling of Transmission Line Networks (Foundation for TransNetCalc) see: 
+
+https://github.com/silicondsp/TransNetCalc/blob/main/Papers/Computer_Modeling_Transmission_Line_Networks.pdf
+
 History: 
 TransNetCalc has been developed by Sasan Ardalan since 1987 while at NC State University and has been incorporated into Capsim since 1989. The code has been enhanced and debugged through the years. The integration with TCL was done in August 2006. Susan Alexander working with Prof. Ardalan developed the recursive solution to the binary tree representation of transmission lines. Ken Shuey provided support for modeling power transmission lines. Gary Ybarra (now a professor at Duke University) working with Professor Ardalan extended TransNetCalc to model plane wave propagation and turbulent Plasma's as encountered in the re-entry or aero assist braking off the atmosphere. Joseph Hall, an outstanding programmer, developed a graphical interface to the underlying C code while at NC State back in 1988.
 
