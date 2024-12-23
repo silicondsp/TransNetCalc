@@ -10,7 +10,7 @@ Also visit the Blog:
 https://aj7bf.com
 
 where examples of XBand microstrip filters are modeled and simulated.
-The repository contains an example of a doublestub tuner using coaxial cables.
+The repository contains an example of a double stub tuner using coaxial cables.
 
 https://www.ccdsp.org/TransTopCalc_Site/trantopcalc_tcl.htm#double_stub_tuner
 
