@@ -46,7 +46,7 @@ n5 R100_L0.0000015915 0 open </pre>
 <h2>Licensing:</h2>
 <p>The <i>TransNetCalc</i> stand alone program and developed TCL commands and API is written in C and are licensed under the GNU Lesser General Public License. The TCL scripts are covered by the GNU General Public License. The scripts are separate from the <i>TransNetCalc</i> library. The intention is to provide all of the source code of <i>TransNetCalc</i> as open source code with freedom to modify and enhance the code. All modifications and enhancements to <i>theTransNetCalc</i> C API, TCL Commands must be published if distributed. Any distribution of the created code linking to the the <i>TransNetCalc</i> API and TCL commands must include a statement showing links to the original <i>TransNetCalc</i> source code. The source code linking into the <i>TransNetCalc</i> API or TCL commands does not need to be exposed.
  </p>
-<a href="https://www.ccdsp.org/TransTopCalc_Site/"><img src="sd-logo-tm_sm.png" width="104" height="109" alt="sdsp logo" title="" /></a>
+<a href="https://www.ccdsp.org/TransTopCalc_Site/"><img src="images/sd-logo-tm_sm.png" width="104" height="109" alt="sdsp logo" title="" /></a>
 <p><strong>Silicon DSP Corporation</strong></p>
 <p>1989-2025</p>
 <p>https://www.ccdsp.org</p> 
