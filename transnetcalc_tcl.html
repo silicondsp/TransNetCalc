@@ -1,0 +1,544 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/trantopcalc.dwt" codeOutsideHTMLIsLocked="false" -->
+<!-- DW6 -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<title>Transmission Line Network Topology Calculation TCL Integration</title>
+
+<style type="text/css">
+<!--
+.style5 {color: #000000}
+-->
+</style>
+</head>
+<body> 
+<h1>Transmission Line Network Topology Calculation (TransNetCalc)  TCL Integration</h1>
+<pre>Copyright (c) 1989-2007 Silicon DSP Corporation
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.2 or any later version published by the Free Software
+Foundation; with no Invariant Sections, no Front-Cover Texts, and
+no Back-Cover Texts. A copy of the license is included in the
+section entitled "GNU Free Documentation License".</pre>
+
+    <h1>Introduction<a name="introduction"></a></h1>
+    <p>The TCL interpreter has been integrated into <em>TransNetCalc</em> providing for very powerful capabilities in the design and tuning of transmission line networks. Iterations can be setup to optimize designs or optimization algorithms can be run in TCL scripts that manipulate the transmission line network parameters such as lengths, transmission line type parameters and topology.</p>
+ <h2>Example Double Stub Tuner <a name="double_stub_tuner"></a></h2>
+    <p><img src="images/doublestubtuner.png" width="657" height="329"></p>
+  
+    <h2>Network Topology</h2>
+    <p>n1 n2 n3<br>
+      n3 n4 n5<br>
+      n2 <br>
+      n4<br>
+      n5<br>
+      end<br>
+      n1 coax1 30<br>
+      n2 coax1 1.76 0 0<br>
+      n3 coax1 2.5 <br>
+      n4 coax1 6.6 0 0<br>
+    n5 R100_L0.0000015915 0 open</p>
+    <p>The coaxial transmission line <em>coax1</em> has characteristic impeance of 50 Ohms. </p>
+    <h2>VSWR Results<a name="vswr_results"></a></h2>
+    <p><img src="images/vswr_dstuner_length.png" width="459" height="457"></p>
+    
+    <p>&nbsp;</p>
+    <p><img src="images/vswr_dstuner_freq.png" width="436" height="436"></p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>   
+    
+    
+    <p>In addition to the TCL commands that directly interact with the <a href="#TransmissionLineNetworkCommands">transmission line topology</a> and nodes, <a href="#vectorCommands">vector commands</a> for both real and complex vectors and <a href="#complexScalarCommands">complex scalar </a>commands have been added to TCL. These are documented below.</p>
+    <p>Two sample scripts are provided. The first script calculates the variation of <a href="#tcl_vswr_vs_length">VSWR versus the length</a> of a stub in a <a href="#double_stub_tuner">double stub tuner</a>. The second example script calculates the variation of <a href="#tcl_vswr_vs_freq">VSW with frequency</a> around the tuned frequency.</p>
+    <table width="571" border="1" cellspacing="1" cellpadding="1">
+      <caption>
+      TCL Scripts<a name="tcl_scripts"></a>      </caption>
+      <tr>
+        <th width="267" scope="col"><a href="#tcl_vswr_vs_length">VSWR vs Length of Stub </a></th>
+        <th width="291" scope="col"><a href="#tcl_vswr_vs_freq">VSWR vs Frequency </a></th>
+      </tr>
+    </table>
+    <table width="572" border="1" cellspacing="1" cellpadding="1">
+      <caption>
+      <br>
+      TCL Commands
+      </caption>
+      <tr>
+        <th scope="col"><a href="#vectorCommands">Vector Commands</a></th>
+        <th scope="col"><a href="#TransmissionLineNetworkCommands">Transmission Line Network Commands </a></th>
+        <th scope="col"><a href="#complexScalarCommands">Complex Scalar Commands </a></th>
+      </tr>
+    </table>
+    <h3>TCL Commands for Vector Operations <a name="vectorCommands"></a></h3>
+    <table width="581" border="1" cellspacing="1" cellpadding="1">
+      <tr>
+        <th width="223" scope="col">Command Syntax </th>
+        <th width="345" scope="col">Description</th>
+      </tr>
+      <tr>
+        <td><strong>vec</strong> ?vector? [list ...]</td>
+        <td>Create a real vector with the TCL List command. Example, vec [list 11 22 33 44 55] </td>
+      </tr>
+      <tr>
+        <td><strong>cxvec</strong> ?vector? [list a+bi c+di ...]</td>
+        <td>Create a complex vector with the TCL list command. Example, cxvec [list 1+2i 3+4i 5+6i] </td>
+      </tr>
+      <tr>
+        <td><strong>vpr</strong> format [filename] [-nolen or -twocol]</td>
+        <td>Print vector (complex or Real) or complex scalar to terminal or store in file. Format must be specified. As simple e or f or like 14.2f just as in C formatting. For real vector can specify if vector length stored (to avoid use -nolen at end of command). For complex vectors specify -twocol at end of command to store as two columns with no length. Otherwise store as complex a+bi. </td>
+      </tr>
+      <tr>
+        <td><strong>vrd</strong> ?vector? fileName</td>
+        <td>Read an ASCII real vector from a file given by fileName. The first line in the file must be the vector length. </td>
+      </tr>
+      <tr>
+        <td><strong>vcxrd</strong> ?vector? fileName</td>
+        <td>Read an ASCII complex vector from a file given by fileName. The first line in the file must be the vector length. The complex values are in the format: a+bi </td>
+      </tr>
+      <tr>
+        <td><strong>vset</strong> $Vector $value $index</td>
+        <td>Set the element index within the Vector to value </td>
+      </tr>
+      <tr>
+        <td><strong>vget</strong> $Vector $index ?value?</td>
+        <td>Get the value at index from the Vector . Store in value </td>
+      </tr>
+      <tr>
+        <td><strong>vcr</strong> ?vector? $length [$std $seed]</td>
+        <td>Create a real vector of length,$ length. If std and seed provided populate with Normal distribution. Otherwise fill with zeroes. </td>
+      </tr>
+      <tr>
+        <td><strong>vcxcr</strong> ?vector? $length [$std $seed]</td>
+        <td>Create a complex vector of length,$ length. If std and seed provided populate with Normal distribution. Otherwise fill with zeroes. </td>
+      </tr>
+      <tr>
+        <td><strong>vdot</strong> $x $y ?z? </td>
+        <td>Calculate the dot product of two vectors. Both vectors must be real or complex but not mixed.</td>
+      </tr>
+      <tr>
+        <td><strong>vcxset</strong> $Vector $value $index</td>
+        <td>Set the element index within the Vector to complex scalar value </td>
+      </tr>
+      <tr>
+        <td><strong>vcxget</strong> $Vector $i ?value?</td>
+        <td>Get the value at index from the Vector . Store in complex scalar value </td>
+      </tr>
+      <tr>
+        <td><strong>vfft</strong> $Vector ?complexVector?</td>
+        <td>Compute forward FFT of real vector. Store in complex vector. </td>
+      </tr>
+      <tr>
+        <td><strong>vifft</strong> $Vector ?resultReal?</td>
+        <td>Compute inverse FFT of complex vector. Result is real FFT. Complex vector must be symmetric with imaginary of Nyquist term zero. </td>
+      </tr>
+      <tr>
+        <td><strong>saxpy</strong> $y $x $alpha # y= alpha x + y , alpha scalar</td>
+        <td>Compute y=alpha*x+y where alpha is a scalar. Both complex and real supported but not mixed. y is replaced. </td>
+      </tr>
+      <tr>
+        <td><strong>vconv</strong> $x $f $y # vectors either all complex or all real</td>
+        <td>Compute y= convolution of x with f. Note vectors must exist before hand. Result is stored in y. Both Real and Complex supported. </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <p>&nbsp; </p>
+    <table width="573" border="1" cellspacing="1" cellpadding="1">
+      <caption>
+      <strong>Complex Scalar Commands</strong><a name="complexScalarCommands"></a>
+      </caption>
+      <tr>
+        <th width="234" scope="col">Command Syntax</th>
+        <th width="326" scope="col">Description</th>
+      </tr>
+      <tr>
+        <td><strong>cx</strong> $re $im ?z? </td>
+        <td>Create complex scalar from double real and imaginary parts. </td>
+      </tr>
+      <tr>
+        <td><strong>cxpolar</strong> $m $angle ?z?</td>
+        <td>Create complex scalar from double magnitude and angle(degrees)</td>
+      </tr>
+      <tr>
+        <td><strong>cxmult</strong> $x $y ?z?</td>
+        <td>Multiply two complex scalars </td>
+      </tr>
+      <tr>
+        <td><strong>cxadd</strong> $x $y ?z?</td>
+        <td>Add two complex scalars </td>
+      </tr>
+      <tr>
+        <td><strong>cxsub</strong> $x $y ?z?</td>
+        <td>Subtract two complex scalars </td>
+      </tr>
+      <tr>
+        <td><strong>cxdiv</strong> $x $y ?z? # z=x/y</td>
+        <td>Divide two complex scalars </td>
+      </tr>
+      <tr>
+        <td><strong>cxexp</strong> $x ?z?</td>
+        <td>Exponentiate complex scalar </td>
+      </tr>
+      <tr>
+        <td><strong>cxtanh</strong> $x ?z?</td>
+        <td>(exp(x) - exp(-x))/(exp(x) + exp(-x))</td>
+      </tr>
+      <tr>
+        <td><strong>cxsqrt</strong> $x ?z?</td>
+        <td>Convert to polar, take the square root of the magnitude and halve theta, then convert back to rectangular and store in complex scalar </td>
+      </tr>
+      <tr>
+        <td><strong>cxgetpolar</strong> $x ?mag? ?angle?</td>
+        <td>Convert complex scalar to polar. Angle in degrees.</td>
+      </tr>
+      <tr>
+        <td><strong>cxget</strong> $x ?re? ?im?</td>
+        <td>Get the double real and imaginary parts from complex scalar </td>
+      </tr>
+      <tr>
+        <td><strong>cxconj</strong> $x</td>
+        <td>Conjugate complex scalar and replace</td>
+      </tr>
+      <tr>
+        <td><strong>cxcopy</strong> $x ?z?</td>
+        <td>Create a duplicate of complex scalar </td>
+      </tr>
+      <tr>
+        <td><strong>cxinv</strong> $x ?z?</td>
+        <td>Compute inverse of complex scalar. z=1/x </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <table width="574" border="1" cellspacing="1" cellpadding="1">
+      <caption>
+      <br>
+      <br>
+      <br>
+      <strong>Transmission Line and Topology Commands</strong><a name="TransmissionLineNetworkCommands"></a>
+      </caption>
+      <tr>
+        <th width="235" scope="col">Command Syntax </th>
+        <th width="326" scope="col">Description</th>
+      </tr>
+      <tr>
+        <td><strong>tload</strong> $fileName ?top?</td>
+        <td>Load the transmission line topology from ASCII file and store in TCL variable &quot;top&quot; </td>
+      </tr>
+      <tr>
+        <td><strong>tcalc</strong> $root $frequency $gen $genImp [?totalImpedance? ?totalCurrent?]</td>
+        <td>Calculate the current, impedances, characteristic impedance, propagation constant and loads for all nodes in the topology for the given frequency with source voltage and impedance specified. Optionally store the total current and impedance as seen from the source into TCL variables as complex scalars. </td>
+      </tr>
+      <tr>
+        <td><strong>tpr</strong> $root [$fileName]</td>
+        <td>Display the loaded topology or store in a file. </td>
+      </tr>
+      <tr>
+        <td><strong>ninfo</strong> $root $nodeName</td>
+        <td>Display the calculated values and info at a given node for topology $root previously loaded.</td>
+      </tr>
+      <tr>
+        <td><strong>nz0gamma</strong> $root $nodeName ?z0? ?gamma?</td>
+        <td>Store characteristic impedance and propagation constant as complex scalars for nodeName in topology $root. </td>
+      </tr>
+      <tr>
+        <td><strong>nvalues</strong> $root $nodeName /variables automatically generated/</td>
+        <td>Get all the variables for a node and automatically store in TCL variables. The node name is prepended to all variable. So the left impedance is nodeName_zl etc. The node type, Unary, Binary, Leaf is stored in nodeName_type. The left and right currents are il and ir. zo and gamma are also returned. For Unary zl and il are returned. </td>
+      </tr>
+      <tr>
+        <td><strong>ngetlength</strong> $root $nodeName ?length?</td>
+        <td>Get the length of a node </td>
+      </tr>
+      <tr>
+        <td><strong>ngetrlcg</strong> $root $nodeName ?r? ?l? ?c? ?g?</td>
+        <td>Get the rlcg parameters for a node</td>
+      </tr>
+      <tr>
+        <td><strong>ngettypeprm</strong> $root $nodeName ?p1? ?p2? ?p3? ?p4?</td>
+        <td>Get the parameters for the transmission line type for a node p1,p2,p3,p4 (same as rlcg) </td>
+      </tr>
+      <tr>
+        <td><strong>nsetlength</strong> $root $nodeName $length</td>
+        <td>Set the length of a node . </td>
+      </tr>
+      <tr>
+        <td><strong>nsetrlcg</strong> $root $nodeName $r $l $c $g</td>
+        <td>Set the rlcg parameters for a node </td>
+      </tr>
+      <tr>
+        <td><strong>nsettypeprm</strong> $root $nodeName $p1 $p2 $p3 $p4</td>
+        <td>Set the transmission line parameters for a node (p1,p2,p3,p4) </td>
+      </tr>
+      <tr>
+        <td><strong>rflc</strong> $z $z0 ?rc?</td>
+        <td>Compute the complex scalar reflection coefficient given the impedance z and characteristic impedance z0. </td>
+      </tr>
+      <tr>
+        <td><strong>vswr</strong> $rflc ?vswr?</td>
+        <td>Compute double VSWR from complex scalar reflection coefficient. </td>
+      </tr>
+      <tr>
+        <td><strong>zpar</strong> $x $y ?z?</td>
+        <td>Compute impedance of two parallel impedances </td>
+      </tr>
+      <tr>
+        <td><strong>nimp</strong> $topologyFileName $nodeName $zs $fmin $fmax $points ?imResp? [ ?zinput? ?fresp? ]</td>
+        <td>Compute impulse response of transmission line network from topology file. Can compute over a frequency band. Points is better to be power of two (it will be truncated to power of two). Frequency response and input impedance optionally returned as complex vectors. Impulse response returned in real vector. </td>
+      </tr>
+      <tr>
+        <td><strong>ncurrlength</strong> $topology $nodeName $points ?voltage?</td>
+        <td>For the loaded topology (from previous <strong>tload</strong> command) compute the voltage distribution along a segment of transmission line for nodeName. Specify the number of points. Use <strong>tcalc</strong> command before this command. </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h1>TransmissionLineTopCalc TCL Code for Varying Length of Stub n2 in Double Stub Tuner<br>
+    </h1>
+    <table width="457" border="1" cellspacing="1" cellpadding="1">
+      <caption>
+      TCL Script Links
+      </caption>
+      <tr>
+        <th scope="col">Double Stub Tuner </th>
+        <th scope="col">VSWR Results </th>
+      </tr>
+    </table>
+    <h1>&nbsp;</h1>
+    <h2>TCL Script VSWR vs Length<a name="tcl_vswr_vs_length"></a> </h2>
+    <p># Transmission Line Topology Calculation and Analysis (TransLineCalc) <br>
+      # Command Tool Scripts<br>
+      # Copyright (C) 2006 Sasan H Ardalan<br>
+      #<br>
+      # This script is free software; you can redistribute it and/or<br>
+      # modify it under the terms of the GNU General Public<br>
+      # License as published by the Free Software Foundation; either<br>
+      # version 2 of the License, or (at your option) any later version.<br>
+      #<br>
+      # This script is distributed in the hope that it will be useful,<br>
+      # but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+      # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU<br>
+      # General Public License for more details.<br>
+      #<br>
+      # You should have received a copy of the GNU General Public<br>
+      # License along with this library; if not, write to the Free Software<br>
+      # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA<br>
+      #<br>
+      # http://www.ccdsp.org<br>
+      # <br>
+      #</p>
+    <p>#<br>
+      # This is a double stub tuner. At node n1 we have a match. <br>
+      # node n2 is the second stub near the generator<br>
+      # At 10MHz the network is matched.<br>
+      #<br>
+      # in the following script we change the length of the stub n2 <br>
+      # by +- 10% around the length where a match is achieved.<br>
+      # 100 points are calculated.<br>
+      # results are stored as follows.<br>
+      # The complex input impedance is stored in a complex vector<br>
+      # It is stored in a filex as complex numbers (a+bi)<br>
+      # The VSWR and Length are stored in a list.<br>
+      # This list is later stored in a file as two columns<br>
+      #</p>
+    <p>#<br>
+      # load the transmission line topology file &quot;t.top&quot;<br>
+      #</p>
+    <p><strong>tload</strong> t.top T<br>
+      #print the topology<br>
+      <strong>tpr</strong> $T<br>
+      # set the complex generator and generator source impedance <br>
+      <strong>cx</strong> 1.0 0.0 g<br>
+      <strong>cx</strong> 50.0 0. zs<br>
+      #calculate all nodes at 10MHz and store the impedances, z0, gamma, <br>
+      # and current for each node<br>
+      <strong>tcalc</strong> $T 1e7 $g $zs timp tcur<br>
+      #print total input impedance and current (complex scalars)<br>
+      <strong>vpr</strong> $timp<br>
+      <strong>vpr</strong> $tcur<br>
+      # get the length of the stub n2<br>
+      <strong>ngetlength</strong> $T n2 n4len<br>
+      #calculate +-10% and dlength<br>
+      set lenBegin [ expr $n4len -0.1*$n4len]<br>
+      set lenEnd [ expr $n4len + 0.1*$n4len ]<br>
+      set dlen [expr ($lenEnd-$lenBegin)/100.0 ]<br>
+      #create complex and real vectors to store results (much more efficient than lists)<br>
+      <strong>vcxcr</strong> zvlen 100<br>
+      <strong>vcr</strong> zmag 100<br>
+      # get z0 and gamma (propagation constant) to use in VSWR calculation<br>
+      <strong>nz0gamma</strong> $T n1 z0 gamma<br>
+      # initialize list to store results (in addition to storing in vectors)<br>
+    set results [list {}]</p>
+    <p>puts &quot;Iterating over length&quot;</p>
+    <p>for { set i 0 } { $i&lt;100 } {incr i} {</p>
+    <p><br>
+      set len [expr $lenBegin +$i*$dlen ]<br>
+      #change the length of the stub<br>
+      <strong>nsetlength</strong> $T n2 $len<br>
+      #recalculate the network for new length<br>
+      <strong>tcalc</strong> $T 1e7 $g $zs<br>
+      # store all the computed values for node n1 (left right impedance, current )<br>
+      # the variables are automatically created<br>
+      <strong>nvalues</strong> $T n1<br>
+      # compute total inpedance at node n1 (variables $n1_zl and <br>
+      # $n1_zr were automatically created in the previous command)<br>
+      <strong>zpar</strong> $n1_zl $n1_zr zt<br>
+      <strong>vpr</strong> $zt<br>
+      #store the input impedance at n1 in the complex vector $zvlen (z versus length)<br>
+      <strong>vcxset</strong> $zvlen $zt $i<br>
+      #get the magnitude of the impedance<br>
+      <strong>cxgetpolar</strong> $zt zmagval theta<br>
+      <br>
+      #compute reflection coefficient<br>
+      <strong>rflc</strong> $zt $z0 rflc_n1<br>
+      #compute vswr<br>
+      <strong>vswr</strong> $rflc_n1 vswr_n1<br>
+      #store in real vector<br>
+      <strong>vset</strong> $zmag $zmagval $i<br>
+      <br>
+      <br>
+      #store vswr in list with length<br>
+      lappend results [list $len $vswr_n1 ]</p>
+    <p><br>
+      }</p>
+    <p>#print resulst of input impedance<br>
+      <strong>vpr</strong> $zvlen 14.6f zin_vs_len.dat -twocol</p>
+    <p>#<br>
+      # create a file to store the vswr vs length<br>
+      #<br>
+      puts &quot;Storing results in vswr.dat&quot;<br>
+      set out [ open vswr.dat w ]</p>
+    <p># puts $out [ llength $results ] <br>
+      #puts -nonewline $out &quot;#Length&quot; <br>
+      #puts -nonewline $out &quot;\t&quot; <br>
+      #puts $out &quot;MagZin&quot; </p>
+    <p>foreach value $results {</p>
+    <p><br>
+      puts -nonewline $out [lindex $value 0] <br>
+      puts -nonewline $out &quot;\t&quot; <br>
+      puts $out [lindex $value 1] </p>
+    <p><br>
+      }<br>
+      close $out</p>
+    <h2>VSWR versus Frequency TCL Script<a name="tcl_vswr_vs_freq"></a></h2>
+    <p># Transmission Line Topology Calculation and Analysis (TransLineCalc) Command Tool Scripts<br>
+      # Copyright (C) 2006 Sasan H Ardalan<br>
+      #<br>
+      # This script is free software; you can redistribute it and/or<br>
+      # modify it under the terms of the GNU General Public<br>
+      # License as published by the Free Software Foundation; either<br>
+      # version 2 of the License, or (at your option) any later version.<br>
+      #<br>
+      # This script is distributed in the hope that it will be useful,<br>
+      # but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
+      # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU<br>
+      # General Public License for more details.<br>
+      #<br>
+      # You should have received a copy of the GNU General Public<br>
+      # License along with this library; if not, write to the Free Software<br>
+      # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA<br>
+      #<br>
+      # http://www.ccdsp.org<br>
+      #<br>
+      # <br>
+    #</p>
+    <p>#<br>
+      # This is a double stub tuner. At node n1 we have a match. <br>
+      # node n2 is the second stub near the generator<br>
+      # At 10MHz the network is matched.<br>
+      #<br>
+      # in the following script we change the frequency of the stub n2 <br>
+      # by +- 10% around the frequency where a match is achieved.<br>
+      # 100 points are calculated.<br>
+      # results are stored as follows.<br>
+      # The VSWR and freq are stored in a list.<br>
+      # This list is later stored in a file as two columns<br>
+      #</p>
+    <p>#<br>
+      # load the transmission line topology file &quot;t.top&quot;<br>
+      #</p>
+    <p><strong>tload</strong> t.top T<br>
+      #print the topology<br>
+      <strong>tpr</strong> $T<br>
+      # set the complex generator and generator source impedance <br>
+      <strong>cx</strong> 1.0 0.0 g<br>
+      <strong>cx</strong> 50.0 0. zs<br>
+      set freq 1e7<br>
+      #calculate +-10% of tuned frequency 10MHz <br>
+      set fBegin [ expr $freq -0.1*$freq]<br>
+      set fEnd [ expr $freq + 0.1*$freq ]<br>
+    set df [expr ($fEnd-$fBegin)/100.0 ]</p>
+    <p># initialize list to store results (in addition to storing in vectors)<br>
+      set results [list {}]</p>
+    <p>puts &quot;Iterating over length&quot;</p>
+    <p><br>
+      for { set i 0 } { $i&lt;100 } {incr i} {</p>
+    <p><br>
+      set f [expr $fBegin +$i*$df ]<br>
+      #recalculate the network for new frequency<br>
+      <strong>tcalc</strong> $T $f $g $zs<br>
+      # get z0 and gamma (propagation constant) to use in VSWR calculation<br>
+      nz0gamma $T n1 z0 gamma</p>
+    <p> # store all the computed values for node n1 (left right impedance, current )<br>
+  # the variables are automatically created<br>
+  <strong>nvalues</strong> $T n1<br>
+  # compute total inpedance at node n1 (variables $n1_zl and $n1_zr were automatically created in the previous command)<br>
+  <strong>zpar</strong> $n1_zl $n1_zr zt<br>
+  <br>
+  #compute reflection coefficient<br>
+  <strong>rflc</strong> $zt $z0 rflc_n1<br>
+  #compute vswr<br>
+  <strong>vswr</strong> $rflc_n1 vswr_n1<br>
+  <br>
+  #store vswr in list with freq<br>
+  set fMHz [expr $f*1e-6]<br>
+  lappend results [list $fMHz $vswr_n1 ]</p>
+    <p><br>
+      }</p>
+    <p>#<br>
+      # create a file to store the vswr vs length<br>
+      #<br>
+      puts &quot;Storing results in vswr_tune.dat&quot;<br>
+    set out [ open vswr_tune.dat w ]</p>
+    <p><br>
+      foreach value $results {</p>
+    <p><br>
+      puts -nonewline $out [lindex $value 0] <br>
+      puts -nonewline $out &quot;\t&quot; <br>
+      puts $out [lindex $value 1] </p>
+    <p>}</p>
+    <p>close $out</p>
+    <p>&nbsp; </p>
+    
+ 
+    <p>&nbsp;</p>
+    <p><br>
+    </p>
+    
+
+      
+
+ <table width="500" border="0">
+ 
+    <tr>
+      <td scope="col"><a href="http://www.silicondsp.com"><img src="sd-logo-tm_sm.gif" width="57" height="57" border="0"></a></td>
+      <td scope="col">&copy; 2007-2017     Silicon DSP Corporation </td>
+    </tr>
+   
+</table>
+<br> 
+</body>
+</html>

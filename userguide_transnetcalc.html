@@ -1,0 +1,259 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<title>TransNetCalc User Guide</title>
+
+
+
+</head>
+<body> 
+<h1>Transmission Line Network Topology Calculation (TransNetCalc)</h1>
+<pre>Copyright (c) 1989-2007 Silicon DSP Corporation
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.2 or any later version published by the Free Software
+Foundation; with no Invariant Sections, no Front-Cover Texts, and
+no Back-Cover Texts. A copy of the license is included in the
+section entitled "GNU Free Documentation License".</pre>
+
+ 
+    <!-- InstanceBeginEditable name="Content" -->
+    <h1>TransNetCalc User Guide<a name="introduction"></a> </h1>
+    <p><em>TransNetCalc</em> is provided with sample topologies and a database of transmission line types. The following is a description of how to setup topologies and the transmission line database. <em>TransNetCalc</em> is available stand alone and with an integrated TCL interpreter.</p>
+    <p>Refer to the README files with the distribution and the sample TCL scripts to run <em>TransNetCalc</em>. </p>
+    <p>For the description of <em>TransNetCalc</em> with Integrated TCL Interpreter follow this <a href="transnetcalc_tcl.html">link</a>. </p>
+    <h1>ASCII Topology Description<a name="asciitop"></a></h1>
+    <p>The transmission line network is described by a topology file. An example is given below:</p>
+    <p class="style6">node1 node2 node3<br>
+  node2 node4<br>
+   node3<br>
+  node4<br>
+  end<br>
+    node1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transmissionLineType &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; length<br>
+    node2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transmissionLineType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; length<br>
+    node3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transmissionLineType &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; length &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0<br>
+    node4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; transmissionLineType&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; length &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; open </span><br>
+    </p>
+    <h3><img src="images/network_topology.png" width="314" height="115"></h3>
+    <h3>&nbsp;</h3>
+    <p>A transmission line network is represented by a graph. 
+    The graph contains vertices or nodes and edges. 
+    The nodes hold information about the edges. 
+    Edges can be transmission lines or lumped elements. 
+    Nodes are either binary, such as node1 in the example, or they are unary such as node2 ( a cascade node) or they are loads.
+    </p>
+    <p>
+     Nodes node4 and node3 are loads. Therefore, load nodes contain, besides the transmission line type and length, 
+     information about the load. Only real loads or open circuits are allowed. 
+     For general loads see lumped elements below.      </p>
+     <p>
+     node3 is a 100 Ohm load. node4 is an open circuit (bridged tap).
+     In the topology describing the graph, 
+     if a node is followed by two nodes it is a binary node ( node1). 
+     If it is followed by a single node ( node2 above) it is a cascade node. 
+     If no node follows the node name then the node is a load. 
+     The nodes node3 and node4 are loads. The source node is implied. </p>
+    <p>Note that the topology file consists of two distinct sections. 
+    The first section describes the node interconnection. 
+    The second section describes the node parameters such as transmission line type,
+     lengths and load. All dimensions are in meters, including the length.</p>
+     
+     
+     
+    <h2>Supported Transmission Line Types<a name="supportedTranTypes"></a></h2>
+    <p>The transmission line types are specified in the file <em>trans_types.dat</em>. The following transmission lines are supported:</p>
+    <h4><strong>Supported Transmission Lines</strong></h4>
+    <p><img src="images/transmission_line_types.png" width="649" height="530"></p>
+    <p>&nbsp;</p>
+    <hr>
+    <p>Also supported but not shown are any transmission line for which the R.L,C, and G parameters may be specified.</p>
+
+    <p>Many more transmission line types can be supported with more parameters. See the source code. </p>
+    <h2>Lumped Circuit Element<a name="lumped"></a></h2>
+    <p>Also supported is the lumped element section shown below</p>
+    <p>Lumped Element Model<br>The transmission line types or lumped element values for each node are specified in the topology file following the node name.</p>
+    <p><img src="images/lumped_circuit_element.png" width="349" height="146"></p>
+    <hr>
+    <h2>&nbsp;</h2>
+    <h2>Transmission Line Type Database (<em>trans_type.dat</em>)<a name="trantypedatatbase"></a> </h2>
+    <p>The transmission line types are described in a data base in a file called <em>trans_types.dat</em>. This file is organized as follows:</p>
+    <p class="style6">name1 parameter1 parameter2 parameter3 parameter4<br>
+      name2 parameter1 parameter2 parameter3 parameter4<br>
+      name3 parameter1 parameter2 parameter3 parameter4<br>
+      ...<br>
+      nameN parameter1 parameter2 parameter3 parameter4</p>
+    <p>The first component is the name of the transmission line. The name is formed as follows: The first few characters describe the transmission line type. The next characters in the name provide a distinct name for the transmission line with the specified parameters. For example,</p>
+    <p class="style6">coaxthin 0.001 0.005 2.25 0.001<br>
+      coaxthick 0.002 0.01 2.25 0.001</p>
+    <p>specify two transmission lines of type <em>coax</em>. Their geometric parameters are different, however. One has a shield radius of 1 cm (<em>coaxthick</em>) while <em>coaxthin</em> has a shield radius of 0.5 cm. In this manner we can specify for example an ethernet thick and thin coax segment. All dimensions are in meters. The dielectric constant for both lines is 2.25.</p>
+    <p>For the supported transmission lines, the parameters are (refer to the figure above):</p>
+    <table width="397" border="1">
+      <caption>
+      Transmission Line Type Specification
+      </caption>
+      <tr>
+        <th width="121" scope="col">Type</th>
+        <th width="78" scope="col">Name Formation</th>
+        <th width="35" scope="col">p1</th>
+        <th width="38" scope="col">p2</th>
+        <th width="41" scope="col">p3</th>
+        <th width="44" scope="col">p4</th>
+      </tr>
+      <tr>
+        <td>Coax </td>
+        <td><strong>coax</strong>Name</td>
+        <td><div align="center">ri</div></td>
+        <td><div align="center">rs</div></td>
+        <td><div align="center">er</div></td>
+        <td><div align="center">t</div></td>
+      </tr>
+      <tr>
+        <td>Parallel Conductors</td>
+        <td><strong>paral</strong>Name</td>
+        <td><div align="center">ri</div></td>
+        <td><div align="center">d</div></td>
+        <td><div align="center">er</div></td>
+        <td><div align="center">0</div></td>
+      </tr>
+      <tr>
+        <td>Balanced Shielded Line</td>
+        <td><strong>balsh</strong>Name</td>
+        <td><div align="center">ri</div></td>
+        <td><div align="center">rs</div></td>
+        <td><div align="center">er</div></td>
+        <td><div align="center">h</div></td>
+      </tr>
+      <tr>
+        <td>Wire Near Ground</td>
+        <td><strong>wireabg</strong>Name</td>
+        <td><div align="center">ri</div></td>
+        <td><div align="center">h</div></td>
+        <td><div align="center">er</div></td>
+        <td><div align="center">0</div></td>
+      </tr>
+      <tr>
+        <td>Default</td>
+        <td>name</td>
+        <td><div align="center">r</div></td>
+        <td><div align="center">l</div></td>
+        <td><div align="center">c</div></td>
+        <td><div align="center">g</div></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <p>In the above, in the column &quot;Name Formation&quot;, the <strong>bold</strong> letters are mandatory. The Name changes to distinguish the same line type but with different parameters. The 0 in the fourth parameter for 2 and 3 is mandatory. </p>
+    <h1>Specifying RLCG Parameters:</h1>
+    <p>For the default, the 4 parameters describe the r, l, c and g parameters of any line. This is used for twisted pair or any other type of transmission line. In this case, the name is arbitrary. That is, no required letters are needed. However, the names cannot begin with the bold names for the supported transmission lines specified.</p>
+    <h1>Specifying Lumped Element Parameters<a name="specifyinglumpedelement"></a></h1>
+    <p>Lumped element parameters are specified in the topology file following the node name. That is, instead of specifying a transmission line type, the values for the lumped elements are specified. For example,</p>
+    <p class="style6">node1 R100_L0.001_C1e-12_G0.01 0 </p>
+    <p>and</p>
+    <p class="style6">node1 r100_l0.001_c1e-12_g0.01 0 </p>
+    <p>specify a lumped element with R= 100 Ohms, L = 1 mH, C= 1 pF, G = 0.01 MHOs. Note that you can use upper or lower case letters for R,L,C and G. If you omit an element its value is assumed to be zero. Thus,</p>
+    <p class="style6">node2 R100_G0.01 0 </p>
+    <p>Specifies a voltage divider where L=0 and C = 0. The use of admittance for G is useful since G=0 implies an open circuit. </p>
+    <p>Note the zero following the lumped element value specification. This is mandatory indicating a length of 0 which is ignored.<br>
+    </p>
+    <p>A lumped element can be used as a load by following the node with an open circuit.<br>
+        <br>
+        Hence,</p>
+    <p class="style6">n1 n2<br>
+      n2<br>
+      n1 R100 0<br>
+      n2 C100e-12 0 open</p>
+    <p>specifies a network with series 100 Ohm resistor and a 100 pF capacitor for a load.</p>
+    <p><img src="images/rc_circuit.png" width="236" height="214"></p>
+    <hr>
+    <h1>&nbsp;</h1>
+    <h1>Plane Wave Propagation<a name="planewave"></a></h1>
+    <p>Normal incidence plane wave propagation through inhomogeneous media can be modeled. In this case, if we assume lossless transmission through a<br>
+    medium with dielectric constant <em>er</em> and permeability <em>mu</em>, then the medium can be specified in the <em>trans_types.dat</em> file as follows:</p>
+    <p class="style6">name 0 mu er e0 0</p>
+    <p>where e0 is the permitivity of free space. </p>
+    <p>Essentially, we replace the RLCG parameters with their free space equivalents. </p>
+    <p>To model plasmas use the following specification:</p>
+    <p class="style6"><strong>palsma</strong>Name collision_frequency electron_density 0 0</p>
+    <p>The electron density is in electrons per cubic cm.</p>
+    <p>Example:</p>
+    <p>Consider the topology,</p>
+    <p class="style6">n1 n2<br>
+      n2 n3<br>
+      n3<br>
+      end<br>
+      n1 material1 1000<br>
+      n2 plasmaTest 2000<br>
+      n3 material2 500 377 0</p>
+    <p>and let the <em>trans_types.dat</em> file contain,</p>
+    <p class="style6">material1 0 1.257e-6 4*8.85e-12 0<br>
+      material2 0 1.257e-6 1.3*8.85e-12 0<br>
+      plasmaTest 0 10e10 0 0</p>
+    <p>Note that free space is indicated by a real matched termination of 377 Ohms at the &quot;load&quot; node n3.</p>
+    <p align="left"><strong>Example of plane wave propagation</strong></p>
+    <p><img src="images/plane_wave.png" width="594" height="282"></p>
+    <hr>
+    <h1>Example of Double Stub Tuner<a name="doublestubtuner"></a></h1>
+    <p>The following double stub tuner is described in:</p>
+    <p>[5] Robert Grover Brown, Robert A. Sharpe, William Lewis Hughes, Robert E. Post, <em>Lines, Waves, and Antennas, Second Edition,</em> Ronald Press Company, 1973 .</p>
+    <p>The double stub tuner matches the load to 50 Ohms. In modeling and simulating this network, we will use the coaxial transmission line. The transmission line parameters are for a 50 Ohm characteristic impedance. The network is matched at 10MHz. The wavelength is 20m.</p>
+    <p><img src="images/doublestubtuner.png" width="733" height="373"></p>
+    <p>&nbsp;</p>
+    <p>The network is described in <em>TransmissionLineTopCalc</em> using the following topology ( stored in an ASCII file): </p>
+    <p></p>
+    <p class="style7">n1 n2 n3<br>
+      n3 n4 n5<br>
+      n2 <br>
+      n4<br>
+      n5<br>
+      end<br>
+      n1 coax1 30<br>
+      n2 coax1 1.76 0 0<br>
+      n3 coax1 2.5 <br>
+      n4 coax1 6.6 0 0<br>
+    n5 R100_L0.0000015915 0 open</p>
+    <p>Note that the lengths are in meters based on the 20m wavelength. The load at 10MHz, 100+j100 is modeled using lumped circuit parameters in node n5 : R100_L0.0000015915.</p>
+    <p>The transmission line type data base is, with coax1 defined:</p>
+    <p>&nbsp;</p>
+    <span class="style6">#19m 0.053437723 5.530183e-7 5.157361e-11 1.031472e-9<br>
+    #22m 0.10749682&nbsp; 5.405909e-7 5.157361e-11 1.031472e-9 <br>
+    #24m 0.17025507&nbsp; 5.903004e-7 5.157361e-11 1.031472e-9<br>
+    #26m 0.27340231&nbsp; 6.213688e-7 5.157361e-11 1.031472e-9 <br>
+    coax1&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 0.0035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.001<br>
+    balsh1&nbsp;&nbsp; 0.001&nbsp; 0.0035 2.25 0.002
+    </p>
+    wireabg1 0.001 0.1 2.25 0.0<br>
+    paral1&nbsp;&nbsp; 0.001 0.01 2.25 0.0 </span><br>
+    <p>The performance of the double stub tuner is shown in the figure below. The VSWR is plotted against the frequency (+- 10% of 10MHz). </p>
+    <p>This result was obtained using <em>TransmissionLineTopCalc</em> with integrated TCL which makes all calculations of the network including setting frequency and node parameters available through TCL commands. </p>
+    <p><img src="images/vswr_dstuner_freq.png" width="531" height="531"></p>
+    <p>&nbsp;</p>
+    <p>The performance of the double stub tuner as a function of the variation of the stub length for node n2 is shown in the figure below. The result is calculated using <em>TransmissionLineTopCalc</em> and integrated TCL. The length is varied between +- 10% of the tuned length at 10MHz. </p>
+    <p>&nbsp;</p>
+    <p><img src="images/vswr_dstuner_length.png" width="591" height="586"></p>
+    <p>&nbsp;</p>
+    
+    <br><br>
+    
+   
+
+<div id="siteInfo"> 
+ <table width="500" border="0">
+ 
+    <tr>
+      <td scope="col"><a href="http://www.silicondsp.com"><img src="sd-logo-tm_sm.gif" width="57" height="57" border="0"></a></td>
+      <td scope="col">&copy; 2007-2024     Silicon DSP Corporation </td>
+    </tr>
+   
+</table>
+<br> 
+</body>
+<!-- InstanceEnd --></html>
