@@ -1,21 +1,23 @@
 # TransNetCalc
 
 <h1>Transmission Line Network Modeling, Design and Analysis</h1>
+The progam is called <i>TransNetCalc</i>.   
+<p>Prof. Sasan Ardalan (AJ7BF Extra Class Amateur Radio) has over the years developed a C program for modeling, design and analysis of complex transmission line networks.
 Also visit the Blog:
 https://aj7bf.com
-The progam is called <i>TransNetCalc</i>.
-  <p>  The C Code including integrated TCL interpreter is hosted on GitHub <a href="https://github.com/silicondsp/TransNetCalc">here</a>. 
-<p>Prof. Sasan Ardalan (AJ7BF Extra Class Amateur Radio) has over the years developed a C program for modeling, design and analysis of complex transmission line networks. 
-<p>The program is called <i>TransNetCalc</i> and is Open Source LGPL 3,</p> 
-Paper on the Computer Modeling of Complex Transmission Lines (Foundation for <i>TransNetCalc</i>): 
+for microstrip bandpass and bandstop filters in X-Band designed with <i>TranNetCalc</i>.
+<p><i>TransNetCalc</i>  is Open Source LGPL 3.</p> 
+See the paper (PDF) on the Computer Modeling of Complex Transmission Line Networks (Foundation for <i>TransNetCalc</i>): 
 </p>  
  <a href="Papers/Computer_Modeling_Transmission_Line_Networks.pdf"><img src="images/noun-document-103341.png" width="60" height="60" alt="paper" title="" /></a>
 <p>For Modeling and Analysis of Plane Wave Propagation through dielectric sections and plasma see the paper below.
 </p>    
 <a href="https://vixra.org/abs/2412.0028"><img src="images/noun-document-103341.png" width="60" height="60" alt="paper" title="" /></a>
-<br>  
 <br> 
+For Mathematica&reg; Modeling an Analysis of Multiconductor Transmission Lins including Coupled Microstrip Circuits check the GitHub Repository <a href="https://github.com/silicondsp/Multiconductor_Modeling_Analysis-Microstrip_Circuits">here</a>.
 <br> 
+For the User Guide see <a href="userguide_transnetcalc.html">here</a>. For TCL Integration for Scripting see  <a href="transnetcalc_tcl.html">here.</a>
+<br> <br> 
 <img src="images/lgplv3-147x51-1.png" width="147" height="51" alt="lgpl" title="" />
 <img src="images/tcl-logo-300x180.png" width="100" height="60" alt="tcl" title="" /> 
  <br> 
@@ -23,7 +25,7 @@ Paper on the Computer Modeling of Complex Transmission Lines (Foundation for <i>
  <img src="images/transmission_line_types-1024x845.png" width="768" height="634" alt="transmission lines" title="" />
 <p> <i>TransNetCalc</i>  also incorporates a TCL interpreter so that transmission line networks such as double stub tuners, microstrip bandpass and bandstop filters for instance can be optimized. Also the impact of parameter changes and variation on performance can be computed and plotted.
  </p>
- <p>Here is a link to the <a href="https://www.ccdsp.org/TransTopCalc_Site/userguide.htm">User Guide</a>. Note that microstrip lines are also supported.</p>
+ <p>Here is a link to the <a href="userguide_transnetcalc.html">User Guide</a>. Note that microstrip lines are also supported.</p>
 <p> Example Network (Double Stub Tuner):</p>
  <img src="images/doublestubtuner.png" width="633" height="318" alt="double stub tuner" title="" />
  <pre>n1 n2 n3
@@ -39,7 +41,7 @@ n4 coax1 6.6 0 0
 n5 R100_L0.0000015915 0 open </pre> 
 <p>The coaxial transmission line <i>coax1</i> has characteristic impedance of 50 Ohms.</p> 
 <h2>TCL Scripting</h2>
-<p>The scripting capabilities of <i>TransNetCalc</i> using TCL are described <a href="https://www.ccdsp.org/TransTopCalc_Site/trantopcalc_tcl.htm">here</a> with documentation of the TCL commands.
+<p>The scripting capabilities of <i>TransNetCalc</i> using TCL are described <a href="transnetcalc_tcl.html">here</a> with documentation of the TCL commands.
 </p>
 <h2>The following is a history of the development:</h2>
 <p> <i>TransNetCalc</i> has been developed by Professor Sasan Ardalan since 1987 while at NC State University and has been incorporated into <a href="https://www.ccdsp.org/">Capsim&reg;</a> since 1989. The code has been enhanced and debugged through the years. The integration with TCL was done in August 2006. Susan Alexander working with Prof. Ardalan developed the recursive solution to the binary tree representation of transmission lines. Ken Shuey provided support for modeling power transmission lines. Gary Ybarra (now a professor at Duke University) working with Professor Ardalan extended <i>TransNetCalc</i> to model plane wave propagation and turbulent Plasma’s as encountered in the re-entry or aero assist braking off the atmosphere. Joseph Hall, an outstanding programmer, developed a graphical interface to the underlying C code while at NC State back in 1988. <i>TransCalcNet</i> has been successfully used in the design of microstrip bandpass filter at 10GHz, bandstop filter at 8.3 GHz and also bandpass filters at 60 GHz. It was also highly accurate in modeling the plasma developed during re-entry on heat tiles (matching super computer models at NASA).</p>
