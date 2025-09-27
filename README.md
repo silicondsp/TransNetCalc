@@ -14,7 +14,7 @@ See the paper (PDF) on the Computer Modeling of Complex Transmission Line Networ
 </p>    
 <a href="https://vixra.org/abs/2412.0028"><img src="images/noun-document-103341.png" width="60" height="60" alt="paper" title="" /></a>
 <br> 
-For Mathematica&reg; Modeling an Analysis of Multiconductor Transmission Lins including Coupled Microstrip Circuits check the GitHub Repository <a href="https://github.com/silicondsp/Multiconductor_Modeling_Analysis-Microstrip_Circuits">here</a>.
+For Mathematica&reg; Modeling an Analysis of Multiconductor Transmission Lines including Coupled Microstrip Circuits check the GitHub Repository <a href="https://github.com/silicondsp/Multiconductor_Modeling_Analysis-Microstrip_Circuits">here</a>.
 <P></p>
 For the <I>TransNetCalc</I> User Guide see <a href="https://www.ccdsp.org/TransTopCalc_Site/userguide_transnetcalc.html">here</a>. For TCL Integration for Scripting see  <a href="https://www.ccdsp.org/TransTopCalc_Site/transnetcalc_tcl.html">here.</a>
 <P></p>
