@@ -20,7 +20,8 @@ For the <I>TransNetCalc</I> User Guide see <a href="https://www.ccdsp.org/TransT
 <P></p>
 
 <img src="images/lgplv3-147x51-1.png" width="147" height="51" alt="lgpl" title="" />
-<img src="images/tcl-logo-300x180.png" width="100" height="60" alt="tcl" title="" /> 
+<a href="https://www.tcl-lang.org/about/language.html">TCL<img src="images/Tcl_Tk+Core+Logo+128+Alternate.gif" width="40" height="68" alt="" title="" /></a>  
+
  <br> 
   <br> <br> <br>
  <img src="images/transmission_line_types-1024x845.png" width="768" height="634" alt="transmission lines" title="" />
